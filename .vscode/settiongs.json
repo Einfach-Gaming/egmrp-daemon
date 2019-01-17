@@ -1,0 +1,7 @@
+{
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.formatOnSave": true,
+    "prettier.tslintIntegration": true,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false
+}

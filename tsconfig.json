@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "outDir": "build",
+        "lib": [
+            "es2017"
+        ],
+        "target": "es2017", // ES2017 is 100% supported in node.js 8.10.0.
+        "module": "commonjs", // Node.js does not yet support es-modules.
+        "moduleResolution": "node",
+        "strict": true,
+        "resolveJsonModule": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+
+        "plugins": [
+            {
+                "name": "typescript-tslint-plugin",
+                "configFile": "./tslint.json",
+                "jsEnable": false,
+                "ignoreDefinitionFiles": true,
+                "alwaysShowRuleFailuresAsWarnings": true,
+                "suppressWhileTypeErrorsPresent": false
+            }
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

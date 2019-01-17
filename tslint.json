@@ -1,0 +1,57 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-config-prettier",
+        "tslint-eslint-rules"
+    ],
+    "linterOptions": {
+        "exclude": [
+            "src/**/*.d.ts"
+        ]
+    },
+    "rulesDirectory": [
+        "tslint-plugin-prettier",
+        "node_modules/tslint-eslint-rules/dist/rules"
+    ],
+    "rules": {
+        "prettier": true,
+        "variable-name": [
+            "check-format",
+            "allow-leading-underscore",
+            "ban-keywords"
+        ],
+        "array-type": [
+            true,
+            "array-simple"
+        ],
+        "no-bitwise": false,
+        "no-unnecessary-type-assertion": true,
+        "no-constant-condition": true,
+        "no-control-regex": true,
+        "no-duplicate-case": true,
+        "no-empty-character-class": true,
+        "no-ex-assign": true,
+        "no-extra-boolean-cast": true,
+        "no-inner-declarations": [
+            true,
+            "functions"
+        ],
+        "no-invalid-regexp": true,
+        "no-regex-spaces": true,
+        "ter-no-sparse-arrays": true,
+        "ter-no-self-compare": true,
+        "handle-callback-err": [
+            true,
+            "err"
+        ],
+        "ter-arrow-body-style": [
+            true,
+            "as-needed"
+        ],
+        "ter-no-proto": true,
+        "ter-prefer-arrow-callback": [
+            true
+        ]
+    }
+}
