@@ -31,6 +31,7 @@ enum Target {
 interface IMessage {
   context: string
   data: any
+  sender?: number
   target: Target | number
 }
 
@@ -184,7 +185,7 @@ function onSocketConnect(socket: net.Socket) {
 
   if (!socket.remoteAddress || !socket.remotePort) {
     Log.warn('Could not identify socket origin, rejecting')
-    socket.destroy()
+    socket.end()
     return
   }
 
@@ -197,7 +198,7 @@ function onSocketConnect(socket: net.Socket) {
         socket.remotePort
       } is not whitelisted, rejecting`
     )
-    socket.destroy()
+    socket.end()
     return
   }
 
@@ -209,9 +210,7 @@ function onSocketConnect(socket: net.Socket) {
   })
 
   Log.info(
-    `New socket connection connected from ${socket.remoteAddress}:${
-      socket.remotePort
-    }`
+    `New socket connection from ${socket.remoteAddress}:${socket.remotePort}`
   )
 
   socket.on('data', onSocketData.bind(socket))
@@ -243,8 +242,9 @@ function onSocketData(this: net.Socket, data: Buffer) {
         const contentValidationResult = Joi.validate(
           content,
           Joi.object().keys({
-            contxt: Joi.string().required(),
+            context: Joi.string().required(),
             data: Joi.any().required(),
+            sender: Joi.number().optional(),
             target: Joi.alternatives().try(
               Joi.number().required(),
               Joi.string()
