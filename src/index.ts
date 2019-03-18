@@ -56,7 +56,7 @@ function findSpareServerId() {
 }
 
 function isServerWhitelisted(ip: string, port: number) {
-  return isPrivate(ip) || find(whitelist, { ip, port }) === undefined
+  return isPrivate(ip) || find(whitelist, { ip, port }) !== undefined
 }
 
 // Broadcasts a message to everybody in the group of the sender, except the sender itself.
