@@ -1,7 +1,7 @@
-import * as colors from 'colors/safe'
-import * as moment from 'moment-timezone'
-import * as winston from 'winston'
-import * as DailyRotateFile from 'winston-daily-rotate-file'
+import colors from 'colors/safe'
+import { DateTime } from 'luxon'
+import winston from 'winston'
+import DailyRotateFile from 'winston-daily-rotate-file'
 
 const levels: { [level: string]: number } = {
   debug: 3,
@@ -38,7 +38,7 @@ const format = winston.format.printf(info => {
     info.level = convertColor(info.level)
   }
 
-  const timestamp = moment().format('HH:mm:ss.SSSS')
+  const timestamp = DateTime.local().toFormat('HH:mm:ss.SSS')
 
   return `${timestamp}\t${info.level}: ${info.message}`
 })

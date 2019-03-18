@@ -1,24 +1,9 @@
-///////////////////////////////////////
-//      Einfach Gaming Roleplay      //
-//          (EGM:RP) Daemon          //
-//                                   //
-//            Created by             //
-//      Pascal 'P4sca1' Sthamer,     //
-//       Jan 'Oninoni' Ziegler       //
-//                                   //
-//   This software is only allowed   //
-//    on official 'Einfach Gaming'   //
-//     servers owned by 'P4sca1'     //
-///////////////////////////////////////
-
-import * as dotenv from 'dotenv'
-// TODO
-// import * as Joi from 'joi'
+import dotenv from 'dotenv'
 import { find } from 'lodash'
-import * as net from 'net'
+import net from 'net'
 import Log from './log'
 
-dotenv.load()
+dotenv.config()
 
 interface IAuthenticatedClient {
   dataBuffer: string

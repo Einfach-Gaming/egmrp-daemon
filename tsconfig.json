@@ -2,13 +2,18 @@
   "compilerOptions": {
     "outDir": "build",
     "lib": ["es2017"],
-    "target": "es2017", // ES2017 is 100% supported in node.js 8.10.0.
-    "module": "commonjs", // Node.js does not yet support es-modules.
+    "target": "es2017",
+
+    "module": "commonjs",
     "moduleResolution": "node",
+    "esModuleInterop": true,
+
     "strict": true,
-    "resolveJsonModule": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
+    "resolveJsonModule": true,
+
+    "typeRoots": ["./node_modules/@types", "./typings"],
 
     "plugins": [
       {
