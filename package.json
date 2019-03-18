@@ -1,19 +1,17 @@
 {
   "author": "P4sca1",
-  "name": "egmrp-",
-  "description": "Internal session based api for IPS Hosting.",
-  "version": "1.2.0",
+  "name": "egmrp-daemon",
+  "description": "Daemon for the EGM:RP roleplay framework, mainly used for multi server networking.",
+  "version": "2.0.0",
   "private": true,
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/P4sca1/ips-hosting-api.git"
+    "url": "https://gitlab.com/einfach-gaming/gmod/egmrp/daemon.git"
   },
   "scripts": {
     "build": "NODE_ENV=production tsc",
-    "build-watch": "tsc --watch",
-    "node-watch": "nodemon --delay 2.5 --watch build build/index.js",
-    "dev": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run build-watch\" \"npm run node-watch\"",
+    "dev": "nodemon",
     "start": "NODE_ENV=production node build/index.js",
     "lint": "tslint --project ./tsconfig.json",
     "lint-fix": "tslint --project ./tsconfig.json --fix",
@@ -25,10 +23,15 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --write",
-      "npm run lint-fix --",
-      "git add"
+    "linters": {
+      "*.ts": [
+        "prettier --write",
+        "npm run lint-fix --",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "*.d.ts"
     ]
   },
   "dependencies": {
@@ -49,12 +52,13 @@
     "husky": "1.3.1",
     "lint-staged": "8.1.5",
     "nodemon": "1.18.10",
-    "prettier": "1.15.3",
+    "prettier": "1.16.4",
+    "ts-node": "8.0.3",
     "tslint": "5.14.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-eslint-rules": "5.4.0",
     "tslint-plugin-prettier": "2.0.1",
     "typescript": "3.3.3333",
-    "typescript-tslint-plugin": "0.2.1"
+    "typescript-tslint-plugin": "0.3.1"
   }
 }

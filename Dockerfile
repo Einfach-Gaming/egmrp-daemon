@@ -16,6 +16,6 @@ RUN npm run build \
   && npm prune --production \
   && rm -rf src typings tsconfig.json
 
-EXPOSE 8080/tcp
+EXPOSE 27200/tcp
 
 CMD ["npm", "run", "start"]

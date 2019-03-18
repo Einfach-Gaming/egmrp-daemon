@@ -34,7 +34,7 @@ interface IMessage {
   target: Target | number
 }
 
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 27200
 const server = net.createServer()
 const authenticatedClients: IAuthenticatedClient[] = []
 
@@ -322,7 +322,7 @@ async function start() {
   server.on('error', handleError)
 
   // Listen.
-  await server.listen('0.0.0.0', port)
+  await server.listen(port, '0.0.0.0')
   Log.info(`Listening on 0.0.0.0:${port}`)
 }
 
