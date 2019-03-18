@@ -154,7 +154,7 @@ function identifyServer(client: IAuthenticatedClient, message: IMessage) {
         client,
         Object.assign(currentServerMessage, {
           data: {
-            id: authenticatedClients.indexOf(existingClient),
+            id: existingClient.serverId,
             ip: existingClient.serverInfo!.ip,
             name: existingClient.serverInfo!.name,
             port: existingClient.serverInfo!.port,

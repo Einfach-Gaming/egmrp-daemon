@@ -1,0 +1,16 @@
+.git
+.vscode
+build
+data
+logs
+node_modules
+.dockerignore
+.DS_Store
+.env
+.gitignore
+.prettierignore
+.prettierrc
+Dockerfile
+nodemon.json
+npm-debug.log
+tslint.json
