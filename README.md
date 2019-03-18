@@ -41,7 +41,7 @@ Here's an example `whitelist.json` file, which will allow connections from `127.
 
 ### **EGM:RP**
 
-In order for `EGM:RP` to handle socket connections, you need to enable required modules.
+In order for EGM:RP to handle socket connections, you need to enable required modules.
 
 1. Download `includes.7z` and `gmsv_socket.core_{your-distro}.dll` from https://github.com/danielga/gmod_luasocket/releases
 2. Copy `gmsv_socket.core_{your-distro}.dll` to `garrysmod/lua/bin` (create folder if it does not yet exist).
