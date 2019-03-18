@@ -194,7 +194,7 @@ function onSocketConnect(socket: net.Socket) {
     return
   }
 
-  if (isServerWhitelisted(socket.remoteAddress, socket.remotePort)) {
+  if (!isServerWhitelisted(socket.remoteAddress, socket.remotePort)) {
     Log.warn(
       `Socket origin ${socket.remoteAddress}:${
         socket.remotePort
