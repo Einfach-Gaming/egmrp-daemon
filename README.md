@@ -17,7 +17,7 @@ The daemon is run using [Docker](https://www.docker.com/):
 docker run \
   --restart always \
   -p 27200:2700 \
-  -v /path/to/whitelist.json:/usr/src/app/whitelist.json \
+  -v /path/to/whitelist.json:/usr/src/app/build/whitelist.json \
   registry.gitlab.com/einfach-gaming/gmod/egmrp/daemon
 ```
 
