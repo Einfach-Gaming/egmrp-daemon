@@ -69,6 +69,7 @@ function broadcastToGroupFrom(sender: IAuthenticatedClient, message: IMessage) {
 
   for (const client of authenticatedClients) {
     if (
+      client.initialized &&
       client.serverInfo!.group === sender.serverInfo!.group &&
       client.serverId !== sender.serverId
     ) {
@@ -86,7 +87,7 @@ function broadcastFrom(sender: IAuthenticatedClient, message: IMessage) {
   }
 
   for (const client of authenticatedClients) {
-    if (client.serverId !== sender.serverId) {
+    if (client.initialized && client.serverId !== sender.serverId) {
       client.socket.write(JSON.stringify(message) + '\n')
     }
   }
