@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { isPrivate } from 'ip'
 import Joi from 'joi'
 import { find } from 'lodash'
 import net from 'net'
@@ -35,7 +36,6 @@ interface IMessage {
   target: Target | number
 }
 
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 27200
 const server = net.createServer()
 const authenticatedClients: IAuthenticatedClient[] = []
 
@@ -53,6 +53,10 @@ function findSpareServerId() {
   }
 
   return serverId
+}
+
+function isServerWhitelisted(ip: string, port: number) {
+  return isPrivate(ip) || find(whitelist, { ip, port }) === undefined
 }
 
 // Broadcasts a message to everybody in the group of the sender, except the sender itself.
@@ -189,10 +193,7 @@ function onSocketConnect(socket: net.Socket) {
     return
   }
 
-  if (
-    find(whitelist, { ip: socket.remoteAddress, port: socket.remotePort }) ===
-    undefined
-  ) {
+  if (isServerWhitelisted(socket.remoteAddress, socket.remotePort)) {
     Log.warn(
       `Socket origin ${socket.remoteAddress}:${
         socket.remotePort
@@ -322,6 +323,7 @@ async function start() {
   server.on('error', handleError)
 
   // Listen.
+  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 27200
   await server.listen(port, '0.0.0.0')
   Log.info(`Listening on 0.0.0.0:${port}`)
 }

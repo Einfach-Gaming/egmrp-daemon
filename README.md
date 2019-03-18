@@ -23,17 +23,17 @@ docker run \
 
 This will launch the daemon on port `27200` (the default).
 
-Note that you need to change `/path/to/whitelist.json` to point to a json file on your machine. Every server needs to be explicitly whitelisted using this file.
+Note that you need to change `/path/to/whitelist.json` to point to a json file on your machine. Every server that is not accessing the daemon locally (through private ip adresses) needs to be explicitly whitelisted using this file.
 Here's an example `whitelist.json` file, which will allow connections from `127.0.0.1:27025` and `1.2.3.4:27025`. Note that the port value must not be the game server port but the port that the game server socket listens on (can be configured in EGM:RP with `Socket.LocalPort` (defaults to `27025`).
 
 ```json
 [
   {
-    "ip": "127.0.0.1",
+    "ip": "1.2.3.4",
     "port": 27025
   },
   {
-    "ip": "1.2.3.4",
+    "ip": "5.6.7.8",
     "port": 27025
   }
 ]
