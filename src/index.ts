@@ -304,7 +304,7 @@ function onSocketDisconnect(this: net.Socket) {
     // Announce server disconnect.
     const message = {
       context: 'Disconnect',
-      data: client.serverId.toString(),
+      data: client.serverId,
       target: Target.INFO,
     }
 
