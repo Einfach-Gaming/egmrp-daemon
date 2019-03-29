@@ -44,7 +44,7 @@
     "winston-daily-rotate-file": "3.8.0"
   },
   "devDependencies": {
-    "@types/dotenv": "6.1.0",
+    "@types/dotenv": "6.1.1",
     "@types/ip": "1.1.0",
     "@types/joi": "14.3.2",
     "@types/lodash": "4.14.123",
