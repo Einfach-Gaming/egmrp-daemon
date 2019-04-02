@@ -19,6 +19,7 @@ const levelColors: { [level: string]: string } = {
 
 const appendLabel = winston.format((info, label?: string) => {
   if (label && label.length > 0) {
+    // eslint-disable-next-line no-param-reassign
     info.label = label
   }
 
@@ -29,12 +30,14 @@ const format = winston.format.printf(info => {
   const color = levelColors[info.level]
 
   if (info.label) {
+    // eslint-disable-next-line no-param-reassign
     info.level = `${info.label} ${info.level.toUpperCase()}`
   }
 
   // @ts-ignore: implicit any
   const convertColor = colors[color]
   if (typeof convertColor === 'function') {
+    // eslint-disable-next-line no-param-reassign
     info.level = convertColor(info.level)
   }
 
@@ -45,6 +48,7 @@ const format = winston.format.printf(info => {
 
 const addLogger = (identifier: string, label?: string) => {
   if (!label) {
+    // eslint-disable-next-line no-param-reassign
     label = identifier.toUpperCase()
   }
 

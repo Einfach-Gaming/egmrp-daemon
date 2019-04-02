@@ -31,6 +31,7 @@ enum Target {
 
 interface IMessage {
   context: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any
   sender?: number
   target: Target | number
@@ -49,7 +50,7 @@ function findSpareServerId() {
   let serverId = 1
 
   while (find(authenticatedClients, { serverId }) !== undefined) {
-    serverId++
+    serverId += 1
   }
 
   return serverId
@@ -67,15 +68,15 @@ function broadcastToGroupFrom(sender: IAuthenticatedClient, message: IMessage) {
     )
   }
 
-  for (const client of authenticatedClients) {
+  authenticatedClients.forEach(client => {
     if (
       client.initialized &&
       client.serverInfo!.group === sender.serverInfo!.group &&
       client.serverId !== sender.serverId
     ) {
-      client.socket.write(JSON.stringify(message) + '\n')
+      client.socket.write(`${JSON.stringify(message)}\n`)
     }
-  }
+  })
 }
 
 // Broadcast a message to all connected clients except the sender.
@@ -86,11 +87,11 @@ function broadcastFrom(sender: IAuthenticatedClient, message: IMessage) {
     )
   }
 
-  for (const client of authenticatedClients) {
+  authenticatedClients.forEach(client => {
     if (client.initialized && client.serverId !== sender.serverId) {
-      client.socket.write(JSON.stringify(message) + '\n')
+      client.socket.write(`${JSON.stringify(message)}\n`)
     }
-  }
+  })
 }
 
 // Sends a message to a single client.
@@ -104,7 +105,7 @@ function sendMessageToClient(
     )
   }
 
-  receiver.socket.write(JSON.stringify(message) + '\n')
+  receiver.socket.write(`${JSON.stringify(message)}\n`)
 }
 
 // Identifies the server of the given client.
@@ -128,7 +129,9 @@ function identifyServer(client: IAuthenticatedClient, message: IMessage) {
   }
 
   const serverInfo: IServerInfo = serverInfoValidationResult.value
+  // eslint-disable-next-line no-param-reassign
   client.serverInfo = serverInfo
+  // eslint-disable-next-line no-param-reassign
   client.initialized = true
 
   Log.info(`${serverInfo.name} has joined group ${serverInfo.group}`)
@@ -149,10 +152,10 @@ function identifyServer(client: IAuthenticatedClient, message: IMessage) {
     target: Target.INFO,
   }
 
-  for (const existingClient of authenticatedClients) {
+  authenticatedClients.forEach(existingClient => {
     if (
       existingClient.initialized &&
-      existingClient.serverInfo!.group === client.serverInfo.group &&
+      existingClient.serverInfo!.group === client.serverInfo!.group &&
       existingClient.serverId !== client.serverId
     ) {
       sendMessageToClient(
@@ -167,7 +170,7 @@ function identifyServer(client: IAuthenticatedClient, message: IMessage) {
         })
       )
     }
-  }
+  })
 
   // Introduce the new client to all existing clients.
   const welcomeMessage: IMessage = {
@@ -184,42 +187,6 @@ function identifyServer(client: IAuthenticatedClient, message: IMessage) {
   broadcastToGroupFrom(client, welcomeMessage)
 }
 
-// Called when a new socket connection is established.
-function onSocketConnect(socket: net.Socket) {
-  socket.setEncoding('binary')
-
-  if (!socket.remoteAddress || !socket.remotePort) {
-    Log.warn('Could not identify socket origin, rejecting')
-    socket.end()
-    return
-  }
-
-  if (!isServerWhitelisted(socket.remoteAddress, socket.remotePort)) {
-    Log.warn(
-      `Socket origin ${socket.remoteAddress}:${
-        socket.remotePort
-      } is not whitelisted, rejecting`
-    )
-    socket.end()
-    return
-  }
-
-  authenticatedClients.push({
-    dataBuffer: '',
-    initialized: false,
-    serverId: findSpareServerId(),
-    socket,
-  })
-
-  Log.info(
-    `New socket connection from ${socket.remoteAddress}:${socket.remotePort}`
-  )
-
-  socket.on('data', onSocketData.bind(socket))
-  socket.on('close', onSocketDisconnect.bind(socket))
-  socket.on('error', handleError)
-}
-
 // Called when a socket received new data.
 function onSocketData(this: net.Socket, data: Buffer) {
   const client = find(authenticatedClients, { socket: this })
@@ -234,7 +201,7 @@ function onSocketData(this: net.Socket, data: Buffer) {
 
     client.dataBuffer = lastLine === undefined ? '' : lastLine
 
-    for (const line of bufferedLines) {
+    bufferedLines.forEach(line => {
       Log.debug(
         `Got message from ${this.remoteAddress}:${this.remotePort}: ${line}`
       )
@@ -277,6 +244,8 @@ function onSocketData(this: net.Socket, data: Buffer) {
             case Target.INFO:
               identifyServer(client, message)
               break
+            default:
+              throw new Error('Unknown target.')
           }
         } else if (typeof message.target === 'number') {
           const receiver = find(authenticatedClients, {
@@ -292,7 +261,7 @@ function onSocketData(this: net.Socket, data: Buffer) {
       } catch (err) {
         Log.error(`Failed to handle message: ${err.stack || err.message}`)
       }
-    }
+    })
   }
 }
 
@@ -314,6 +283,40 @@ function onSocketDisconnect(this: net.Socket) {
 
     authenticatedClients.splice(authenticatedClients.indexOf(client), 1)
   }
+}
+
+// Called when a new socket connection is established.
+function onSocketConnect(socket: net.Socket) {
+  if (!socket.remoteAddress || !socket.remotePort) {
+    Log.warn('Could not identify socket origin, rejecting')
+    socket.end()
+    return
+  }
+
+  if (!isServerWhitelisted(socket.remoteAddress, socket.remotePort)) {
+    Log.warn(
+      `Socket origin ${socket.remoteAddress}:${
+        socket.remotePort
+      } is not whitelisted, rejecting`
+    )
+    socket.end()
+    return
+  }
+
+  authenticatedClients.push({
+    dataBuffer: '',
+    initialized: false,
+    serverId: findSpareServerId(),
+    socket,
+  })
+
+  Log.info(
+    `New socket connection from ${socket.remoteAddress}:${socket.remotePort}`
+  )
+
+  socket.on('data', onSocketData.bind(socket))
+  socket.on('close', onSocketDisconnect.bind(socket))
+  socket.on('error', handleError)
 }
 
 async function start() {

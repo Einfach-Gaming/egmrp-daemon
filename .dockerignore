@@ -7,10 +7,11 @@ node_modules
 .dockerignore
 .DS_Store
 .env
+.eslintignore
+.eslintrc.json
 .gitignore
 .prettierignore
 .prettierrc
 Dockerfile
 nodemon.json
 npm-debug.log
-tslint.json

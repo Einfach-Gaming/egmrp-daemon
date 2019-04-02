@@ -10,21 +10,7 @@
 
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "resolveJsonModule": true,
-
-    "typeRoots": ["./node_modules/@types", "./typings"],
-
-    "plugins": [
-      {
-        "name": "typescript-tslint-plugin",
-        "configFile": "./tslint.json",
-        "jsEnable": false,
-        "ignoreDefinitionFiles": true,
-        "alwaysShowRuleFailuresAsWarnings": true,
-        "suppressWhileTypeErrorsPresent": false
-      }
-    ]
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"]
 }
