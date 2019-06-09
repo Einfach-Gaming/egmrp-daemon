@@ -1,4 +1,4 @@
-FROM node:10.15.3-alpine
+FROM node:10.16.0-alpine
 
 RUN apk add --update --no-cache curl \
   && deluser --remove-home node
