@@ -14,9 +14,10 @@ Game servers connect to this daemon which handles authentication and message for
 The daemon is run using [Docker](https://www.docker.com/):
 
 ```docker
-docker run \
+docker run -d \
+  --name egmrp_daemon \
   --restart always \
-  -p 27200:2700 \
+  -p 27200:27200 \
   -v /path/to/whitelist.json:/usr/src/app/build/whitelist.json \
   registry.gitlab.com/einfach-gaming/gmod/egmrp/daemon
 ```
