@@ -51,7 +51,7 @@ let whitelist: ReturnType<typeof whitelistSchema.validateSync>
 
 try {
   // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const whitelistJson = fs.readFileSync(path.join(__dirname, 'whitelist.json'))
+  const whitelistJson = fs.readFileSync(path.join(__dirname, '../whitelist.json'))
   whitelist = whitelistSchema.validateSync(whitelistJson)
 } catch (err) {
   logger.error({ err }, 'Failed to load whitelist')
