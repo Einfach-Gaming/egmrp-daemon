@@ -45,7 +45,7 @@ const whitelistSchema = Yup.array()
       port: Yup.number().required(),
     }).required()
   )
-  .required()
+  .defined()
 
 let whitelist: ReturnType<typeof whitelistSchema.validateSync>
 
