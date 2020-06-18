@@ -1,10 +1,16 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.formatOnSave": true,
-  "prettier.eslintIntegration": true,
-  "editor.tabSize": 2,
+  // Do not allow guests to join live share session without approval.
+  "liveshare.guestApprovalRequired": true,
+  // Always use 2 spaces for indentation.
   "editor.detectIndentation": false,
-  "eslint.enable": true,
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": ["typescript"]
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  // Run eslint fix on save.
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  // Tell eslint where the roots of our projects are.
+  "eslint.workingDirectories": [
+    "./src",
+  ]
 }
