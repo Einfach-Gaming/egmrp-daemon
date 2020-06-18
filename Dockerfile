@@ -35,7 +35,7 @@ RUN yarn install --frozen-lockfile
 # Copy only required files from builder to final image.
 COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /home/node/package.json ./
-COPY --from=builder --chown=node:node /home/node/dist/ ./
+COPY --from=builder --chown=node:node /home/node/dist/ ./dist
 
 EXPOSE 27200/tcp
 
