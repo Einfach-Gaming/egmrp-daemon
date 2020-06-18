@@ -1,16 +1,27 @@
 {
   "compilerOptions": {
-    "outDir": "build",
-    "lib": ["es2017"],
-    "target": "es2017",
+    "outDir": "./dist",
+    "rootDir": "./src",
 
-    "module": "commonjs",
+    "sourceMap": true,
+    "importHelpers": true,
+
+    "lib": ["esnext", "dom"],
+    "target": "es2019", // ES2019 is 100% supported in node.js 12.3.
+
+    "module": "commonjs", // Node.js does not yet support es-modules.
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "noUnusedLocals": true,
+
+    "importsNotUsedAsValues": "error"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*.ts"]
 }
