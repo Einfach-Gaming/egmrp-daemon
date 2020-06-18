@@ -1,21 +1,42 @@
-FROM node:10.16.0-alpine
+# Builder
+FROM node:12-alpine AS builder
 
-RUN apk add --update --no-cache curl \
-  && deluser --remove-home node
+RUN apk add --update --no-cache yarn
 
-USER root
-WORKDIR /usr/src/app
+USER node
+WORKDIR /home/node
 
-COPY package*.json ./
+COPY ["package.json", "yarn.lock", "./"]
 
-RUN npm install
+# Install all dependencies.
+RUN yarn install --frozen-lockfile
 
+# Copy files for buld.
 COPY . .
 
-RUN npm run build \
-  && npm prune --production \
-  && rm -rf src typings tsconfig.json
+# Build 
+RUN yarn build && \
+    # Remove dev dependencies.
+    yarn install --frozen-lockfile --production
+
+# Final image
+FROM node:12-alpine
+
+RUN apk add --update --no-cache curl
+
+USER node
+WORKDIR /home/node
+
+COPY ["package.json", "yarn.lock", "./"]
+
+# Install all dependencies.
+RUN yarn install --frozen-lockfile
+
+# Copy only required files from builder to final image.
+COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
+COPY --from=builder --chown=node:node /home/node/package.json ./
+COPY --from=builder --chown=node:node /home/node/dist/ ./
 
 EXPOSE 27200/tcp
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
