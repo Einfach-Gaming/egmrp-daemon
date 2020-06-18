@@ -1,10 +1,11 @@
+// Load env variables from our .env config as early as possible.
+import net, { AddressInfo } from 'net'
+import fs from 'fs'
+import path from 'path'
 import dotenv from 'dotenv'
 import { isPrivate } from 'ip'
-import Joi from 'joi'
-import { find } from 'lodash'
-import net from 'net'
-import Log from './log'
-import whitelist from './whitelist.json'
+import * as Yup from 'yup'
+import logger from './logger'
 
 dotenv.config()
 
@@ -37,19 +38,39 @@ interface IMessage {
   target: Target | number
 }
 
+const whitelistSchema = Yup.array()
+  .of(
+    Yup.object({
+      ip: Yup.string().required(),
+      port: Yup.number().required(),
+    }).required()
+  )
+  .required()
+
+let whitelist: ReturnType<typeof whitelistSchema.validateSync>
+
+try {
+  // eslint-disable-next-line security/detect-non-literal-fs-filename
+  const whitelistJson = fs.readFileSync(path.join(__dirname, 'whitelist.json'))
+  whitelist = whitelistSchema.validateSync(whitelistJson)
+} catch (err) {
+  logger.error({ err }, 'Failed to load whitelist')
+  process.exit(1)
+}
+
 const server = net.createServer()
 const authenticatedClients: IAuthenticatedClient[] = []
 
-// Handle errors by logging their stack / message.
+// Log errors.
 function handleError(err: Error) {
-  Log.error(err.stack || err.message)
+  logger.error(err)
 }
 
 // Finds an unused server id, starting with 1.
 function findSpareServerId() {
   let serverId = 1
 
-  while (find(authenticatedClients, { serverId }) !== undefined) {
+  while (authenticatedClients.some(client => client.serverId === serverId)) {
     serverId += 1
   }
 
@@ -57,7 +78,13 @@ function findSpareServerId() {
 }
 
 function isServerWhitelisted(ip: string, port: number) {
-  return isPrivate(ip) || find(whitelist, { ip, port }) !== undefined
+  return (
+    isPrivate(ip) ||
+    whitelist.some(
+      ({ ip: whitelistedIp, port: whitelistedPort }) =>
+        whitelistedIp === ip && whitelistedPort === port
+    )
+  )
 }
 
 // Broadcasts a message to everybody in the group of the sender, except the sender itself.
@@ -108,33 +135,29 @@ function sendMessageToClient(
   receiver.socket.write(`${JSON.stringify(message)}\n`)
 }
 
+const serverInfoValidationSchema = Yup.object({
+  group: Yup.string().required(),
+  ip: Yup.string().required(),
+  name: Yup.string().required(),
+  port: Yup.number().required(),
+}).required()
+
 // Identifies the server of the given client.
-function identifyServer(client: IAuthenticatedClient, message: IMessage) {
-  const serverInfoValidationResult = Joi.validate(
-    message.data,
-    Joi.object().keys({
-      group: Joi.string().required(),
-      ip: Joi.string().required(),
-      name: Joi.string().required(),
-      port: Joi.number().required(),
-    }),
-    {
-      abortEarly: false,
-      stripUnknown: true,
-    }
-  )
+async function identifyServer(client: IAuthenticatedClient, message: IMessage) {
+  const serverInfo = await serverInfoValidationSchema
+    .validate(message.data, { abortEarly: false, stripUnknown: true })
+    .catch(err => {
+      logger.error({ err }, 'failed to identify server')
+    })
 
-  if (serverInfoValidationResult.error) {
-    throw serverInfoValidationResult.error
-  }
+  if (serverInfo === undefined) return
 
-  const serverInfo: IServerInfo = serverInfoValidationResult.value
   // eslint-disable-next-line no-param-reassign
   client.serverInfo = serverInfo
   // eslint-disable-next-line no-param-reassign
   client.initialized = true
 
-  Log.info(`${serverInfo.name} has joined group ${serverInfo.group}`)
+  logger.info(`${serverInfo.name} has joined group ${serverInfo.group}`)
 
   // Confirm that the identification was successful and send the server id to the client.
   const identifyConfirmation: IMessage = {
@@ -187,12 +210,23 @@ function identifyServer(client: IAuthenticatedClient, message: IMessage) {
   broadcastToGroupFrom(client, welcomeMessage)
 }
 
+const contentValidationSchema = Yup.object({
+  context: Yup.string().required(),
+  data: Yup.mixed().required(),
+  sender: Yup.number().notRequired(),
+  target: Yup.lazy(value =>
+    typeof value === 'number'
+      ? Yup.number().required()
+      : Yup.string().oneOf(['b', 'g', 'i'])
+  ) as Yup.NumberSchema<number> | Yup.StringSchema<Target>,
+}).required()
+
 // Called when a socket received new data.
-function onSocketData(this: net.Socket, data: Buffer) {
-  const client = find(authenticatedClients, { socket: this })
+async function onSocketData(this: net.Socket, data: Buffer) {
+  const client = authenticatedClients.find(client => client.socket === this)
 
   if (client === undefined) {
-    Log.info('Ignoring data from unauthenticated socket')
+    logger.info('Ignoring data from unauthenticated socket')
   } else {
     client.dataBuffer += data.toString()
 
@@ -201,37 +235,17 @@ function onSocketData(this: net.Socket, data: Buffer) {
 
     client.dataBuffer = lastLine === undefined ? '' : lastLine
 
-    bufferedLines.forEach(line => {
-      Log.debug(
+    for (const line of bufferedLines) {
+      logger.debug(
         `Got message from ${this.remoteAddress}:${this.remotePort}: ${line}`
       )
 
       try {
         const content = JSON.parse(line)
-        const contentValidationResult = Joi.validate(
-          content,
-          Joi.object().keys({
-            context: Joi.string().required(),
-            data: Joi.any().required(),
-            sender: Joi.number().optional(),
-            target: Joi.alternatives().try(
-              Joi.number().required(),
-              Joi.string()
-                .valid(['b', 'g', 'i'])
-                .required()
-            ),
-          }),
-          {
-            abortEarly: false,
-            stripUnknown: true,
-          }
-        )
-
-        if (contentValidationResult.error) {
-          throw contentValidationResult.error
-        }
-
-        const message: IMessage = contentValidationResult.value
+        const message = await contentValidationSchema.validate(content, {
+          abortEarly: false,
+          stripUnknown: true,
+        })
 
         if (typeof message.target === 'string') {
           switch (message.target) {
@@ -242,15 +256,15 @@ function onSocketData(this: net.Socket, data: Buffer) {
               broadcastToGroupFrom(client, message)
               break
             case Target.INFO:
-              identifyServer(client, message)
+              await identifyServer(client, message)
               break
             default:
               throw new Error('Unknown target.')
           }
         } else if (typeof message.target === 'number') {
-          const receiver = find(authenticatedClients, {
-            serverId: message.target,
-          })
+          const receiver = authenticatedClients.find(
+            client => client.serverId === message.target
+          )
 
           if (receiver === undefined) {
             throw new Error('Unknown receiver.')
@@ -259,15 +273,15 @@ function onSocketData(this: net.Socket, data: Buffer) {
           sendMessageToClient(receiver, message)
         }
       } catch (err) {
-        Log.error(`Failed to handle message: ${err.stack || err.message}`)
+        logger.error({ err }, 'Failed to handle message')
       }
-    })
+    }
   }
 }
 
 // Called when a socket disconnected.
 function onSocketDisconnect(this: net.Socket) {
-  const client = find(authenticatedClients, { socket: this })
+  const client = authenticatedClients.find(client => client.socket === this)
 
   if (client !== undefined) {
     // Announce server disconnect.
@@ -279,7 +293,7 @@ function onSocketDisconnect(this: net.Socket) {
 
     broadcastToGroupFrom(client, message)
 
-    Log.info(`${this.remoteAddress}:${this.remotePort} disconnected`)
+    logger.info(`${this.remoteAddress}:${this.remotePort} disconnected`)
 
     authenticatedClients.splice(authenticatedClients.indexOf(client), 1)
   }
@@ -288,16 +302,14 @@ function onSocketDisconnect(this: net.Socket) {
 // Called when a new socket connection is established.
 function onSocketConnect(socket: net.Socket) {
   if (!socket.remoteAddress || !socket.remotePort) {
-    Log.warn('Could not identify socket origin, rejecting')
+    logger.warn('Could not identify socket origin, rejecting')
     socket.end()
     return
   }
 
   if (!isServerWhitelisted(socket.remoteAddress, socket.remotePort)) {
-    Log.warn(
-      `Socket origin ${socket.remoteAddress}:${
-        socket.remotePort
-      } is not whitelisted, rejecting`
+    logger.warn(
+      `Socket origin ${socket.remoteAddress}:${socket.remotePort} is not whitelisted, rejecting`
     )
     socket.end()
     return
@@ -310,26 +322,33 @@ function onSocketConnect(socket: net.Socket) {
     socket,
   })
 
-  Log.info(
+  logger.info(
     `New socket connection from ${socket.remoteAddress}:${socket.remotePort}`
   )
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   socket.on('data', onSocketData.bind(socket))
   socket.on('close', onSocketDisconnect.bind(socket))
   socket.on('error', handleError)
 }
 
-async function start() {
-  // Handle new connections.
-  server.on('connection', onSocketConnect)
+// Handle new connections.
+server.on('connection', onSocketConnect)
 
-  // Error handling.
-  server.on('error', handleError)
+// Error handling.
+server.on('error', handleError)
 
-  // Listen.
-  const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 27200
-  await server.listen(port, '0.0.0.0')
-  Log.info(`Listening on 0.0.0.0:${port}`)
-}
+// Listen.
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 27200
+server.listen(port, process.env.IP ?? '0.0.0.0')
 
-start()
+server.on('listening', () => {
+  const address = server.address() as AddressInfo | null
+
+  if (address === null) {
+    logger.error('Failed to retreive http server address.')
+    process.exit(1)
+  }
+
+  logger.info(`Ready at http://${address.address}:${address.port}`)
+})

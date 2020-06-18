@@ -2,49 +2,42 @@
   "author": "P4sca1",
   "name": "egmrp-daemon",
   "description": "Daemon for the EGM:RP roleplay framework, mainly used for multi server networking.",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "private": true,
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/einfach-gaming/gmod/egmrp/daemon.git"
+    "url": "https://github.com/Einfach-Gaming/egmrp-daemon.git"
   },
   "scripts": {
-    "build": "NODE_ENV=production tsc",
+    "build": "tsc --project ./tsconfig.json",
     "dev": "nodemon",
-    "start": "NODE_ENV=production node build/index.js",
-    "lint": "eslint src /**/*.ts",
-    "lint-fix": "eslint src/**/*.ts --fix",
-    "prettier": "prettier --write src/**/*.ts",
-    "tsc-check": "tsc --project ./tsconfig.json --noEmit"
-  },
-  "dependencies": {
-    "colors": "1.3.3",
-    "dotenv": "8.0.0",
-    "ip": "1.1.5",
-    "joi": "14.3.1",
-    "lodash": "4.17.11",
-    "luxon": "1.16.0",
-    "winston": "3.2.1",
-    "winston-daily-rotate-file": "3.9.0"
+    "start": "node ./dist/index.js",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint-fix": "eslint --fix \"src/**/*.ts\"",
+    "ts-check": "tsc --project ./tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@types/dotenv": "6.1.1",
     "@types/ip": "1.1.0",
-    "@types/joi": "14.3.3",
-    "@types/lodash": "4.14.134",
-    "@types/luxon": "1.15.1",
-    "@types/node": "10.14.8",
-    "@typescript-eslint/eslint-plugin": "1.9.0",
-    "@typescript-eslint/parser": "1.9.0",
-    "concurrently": "4.1.0",
-    "eslint": "5.16.0",
-    "eslint-config-airbnb-base": "13.1.0",
-    "eslint-config-prettier": "4.3.0",
-    "eslint-plugin-import": "2.17.3",
-    "nodemon": "1.19.1",
-    "prettier": "1.18.2",
-    "ts-node": "8.2.0",
-    "typescript": "3.5.1"
+    "@types/joi": "14.3.4",
+    "@types/node": "14.0.13",
+    "@types/pino": "6.3.0",
+    "@types/yup": "0.29.3",
+    "@typescript-eslint/eslint-plugin": "3.3.0",
+    "@typescript-eslint/parser": "3.3.0",
+    "@typescript-eslint/typescript-estree": "3.3.0",
+    "eslint": "7.2.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.21.2",
+    "eslint-plugin-prettier": "3.1.4",
+    "eslint-plugin-security": "1.4.0",
+    "pino-pretty": "4.0.0",
+    "prettier": "2.0.5",
+    "typescript": "3.8.3",
+    "yup": "0.29.1"
+  },
+  "dependencies": {
+    "dotenv": "8.2.0",
+    "ip": "1.1.5"
   }
 }
