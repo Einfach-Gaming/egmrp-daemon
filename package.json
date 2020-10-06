@@ -2,7 +2,7 @@
   "author": "P4sca1",
   "name": "egmrp-daemon",
   "description": "Daemon for the EGM:RP roleplay framework, mainly used for multi server networking.",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "private": true,
   "license": "UNLICENSED",
   "repository": {
