@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/ip": "1.1.0",
-    "@types/joi": "14.3.4",
+    "@types/joi": "17.2.2",
     "@types/node": "12.12.64",
     "@types/pino": "6.3.2",
     "@types/yup": "0.29.7",
