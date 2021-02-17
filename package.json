@@ -22,7 +22,7 @@
     "@types/joi": "14.3.4",
     "@types/node": "12.12.64",
     "@types/pino": "6.3.2",
-    "@types/yup": "0.29.7",
+    "@types/yup": "0.29.11",
     "@typescript-eslint/eslint-plugin": "4.4.0",
     "@typescript-eslint/parser": "4.4.0",
     "@typescript-eslint/typescript-estree": "4.4.0",
@@ -42,6 +42,6 @@
     "ip": "1.1.5",
     "pino": "6.7.0",
     "tslib": "2.1.0",
-    "yup": "0.29.3"
+    "yup": "0.32.9"
   }
 }
