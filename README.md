@@ -19,7 +19,7 @@ docker run -d \
   --restart always \
   -p 27200:27200 \
   -v /path/to/whitelist.json:/home/node/whitelist.json \
-  p4sca1/egmrp-daemon:latest
+  mattzimann/egmrp-daemon:latest
 ```
 
 This will launch the daemon on port `27200` (the default).
