@@ -15,11 +15,11 @@ The daemon is run using [Docker](https://www.docker.com/):
 
 ```docker
 docker run -d \
-  --name egmrp_daemon \
+  --name egmrp-daemon \
   --restart always \
   -p 27200:27200 \
   -v /path/to/whitelist.json:/home/node/whitelist.json \
-  mattzimann/egmrp-daemon:latest
+  p4sca1/egmrp-daemon:latest
 ```
 
 This will launch the daemon on port `27200` (the default).
