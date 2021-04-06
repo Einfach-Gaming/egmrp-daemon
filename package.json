@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@semantic-release/changelog": "5.0.1",
+    "@semantic-release/exec": "5.0.0",
     "@semantic-release/git": "9.0.0",
     "@tsconfig/node14": "1.0.0",
     "@types/node": "14.14.37",
@@ -62,15 +63,14 @@
           ]
         }
       ],
-      "@semantic-release/git"
-    ],
-    "verifyConditions": {
-      "path": "semantic-release-docker",
-      "registryUrl": "docker.io"
-    },
-    "publish": {
-      "path": "semantic-release-docker",
-      "name": "p4sca1/egmrp-daemon"
-    }
+      "@semantic-release/git",
+      ["@semantic-release/exec", {
+        "prepareCmd": "docker build -t docker.pkg.github.com/einfach-gaming/egmrp-daemon/egmrp-daemon ."
+      }],
+      ["semantic-release-docker", {
+        "name": "docker.pkg.github.com/einfach-gaming/egmrp-daemon/egmrp-daemon",
+        "registryUrl": "docker.pkg.github.com"
+      }]
+    ]
   }
 }
