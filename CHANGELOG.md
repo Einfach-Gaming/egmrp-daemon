@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.1.0...v2.1.1) (2021-04-06)
+
+
+### Bug Fixes
+
+* use github package registry ([6ed74d2](https://github.com/Einfach-Gaming/egmrp-daemon/commit/6ed74d208a9061531c7f610f5fc0c52c26f0d772)), closes [#39](https://github.com/Einfach-Gaming/egmrp-daemon/issues/39)
+
 # [2.1.0](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.0.4...v2.1.0) (2021-04-06)
 
 
