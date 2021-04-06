@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.1.1...v2.2.0) (2021-04-06)
+
+
+### Features
+
+* use alpine linux for smaller image size ([af8d001](https://github.com/Einfach-Gaming/egmrp-daemon/commit/af8d001e282377e474f48110f385c4811590de86))
+
 ## [2.1.1](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.1.0...v2.1.1) (2021-04-06)
 
 
