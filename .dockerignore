@@ -2,6 +2,7 @@
 
 !package.json
 !yarn.lock
+!.yarnrc.yml
 !.yarn/cache
 !.yarn/patches
 !.yarn/plugins
