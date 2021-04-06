@@ -1,25 +1,21 @@
-// Load env variables from our .env config as early as possible.
 import net, { AddressInfo } from 'net'
 import fs from 'fs'
 import path from 'path'
-import dotenv from 'dotenv'
 import * as Yup from 'yup'
-import logger from './logger'
+import { logger } from './logger'
 import { isPrivateIP } from './utils'
 
-dotenv.config()
-
-interface IServerInfo {
+interface SeverInfo {
   group: string
   ip: string
   name: string
   port: number
 }
 
-interface IAuthenticatedClient {
+interface AuthenticatedClient {
   dataBuffer: string
   serverId: number
-  serverInfo?: IServerInfo
+  serverInfo?: SeverInfo
   initialized: boolean
   socket: net.Socket
 }
@@ -30,7 +26,7 @@ enum Target {
   INFO = 'i',
 }
 
-interface IMessage {
+interface Message {
   context: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any
@@ -50,8 +46,9 @@ const whitelistSchema = Yup.array()
 let whitelist: ReturnType<typeof whitelistSchema.validateSync>
 
 try {
-  // eslint-disable-next-line security/detect-non-literal-fs-filename
-  const whitelistJson = fs.readFileSync(path.join(__dirname, '../whitelist.json')).toString()
+  const whitelistJson = fs
+    .readFileSync(path.join(__dirname, '../whitelist.json'))
+    .toString()
   whitelist = whitelistSchema.validateSync(JSON.parse(whitelistJson))
 } catch (err) {
   logger.error({ err }, 'Failed to load whitelist')
@@ -59,14 +56,12 @@ try {
 }
 
 const server = net.createServer()
-const authenticatedClients: IAuthenticatedClient[] = []
+const authenticatedClients: AuthenticatedClient[] = []
 
-// Log errors.
 function handleError(err: Error) {
   logger.error(err)
 }
 
-// Finds an unused server id, starting with 1.
 function findSpareServerId() {
   let serverId = 1
 
@@ -87,8 +82,7 @@ function isServerWhitelisted(ip: string, port: number) {
   )
 }
 
-// Broadcasts a message to everybody in the group of the sender, except the sender itself.
-function broadcastToGroupFrom(sender: IAuthenticatedClient, message: IMessage) {
+function broadcastToGroupFrom(sender: AuthenticatedClient, message: Message) {
   if (!sender.initialized) {
     throw new Error(
       'Sender needs to be initialized before being able to send messages.'
@@ -106,8 +100,7 @@ function broadcastToGroupFrom(sender: IAuthenticatedClient, message: IMessage) {
   })
 }
 
-// Broadcast a message to all connected clients except the sender.
-function broadcastFrom(sender: IAuthenticatedClient, message: IMessage) {
+function broadcastFrom(sender: AuthenticatedClient, message: Message) {
   if (!sender.initialized) {
     throw new Error(
       'Sender needs to be initialized before being able to send messages.'
@@ -121,11 +114,7 @@ function broadcastFrom(sender: IAuthenticatedClient, message: IMessage) {
   })
 }
 
-// Sends a message to a single client.
-function sendMessageToClient(
-  receiver: IAuthenticatedClient,
-  message: IMessage
-) {
+function sendMessageToClient(receiver: AuthenticatedClient, message: Message) {
   if (!receiver.initialized) {
     throw new Error(
       'Client needs to be initialized before being able to receive messages.'
@@ -142,8 +131,7 @@ const serverInfoValidationSchema = Yup.object({
   port: Yup.number().required(),
 }).required()
 
-// Identifies the server of the given client.
-async function identifyServer(client: IAuthenticatedClient, message: IMessage) {
+async function identifyServer(client: AuthenticatedClient, message: Message) {
   const serverInfo = await serverInfoValidationSchema
     .validate(message.data, { abortEarly: false, stripUnknown: true })
     .catch(err => {
@@ -160,7 +148,7 @@ async function identifyServer(client: IAuthenticatedClient, message: IMessage) {
   logger.info(`${serverInfo.name} has joined group ${serverInfo.group}`)
 
   // Confirm that the identification was successful and send the server id to the client.
-  const identifyConfirmation: IMessage = {
+  const identifyConfirmation: Message = {
     context: 'Identify',
     data: client.serverId,
     target: Target.INFO,
@@ -169,7 +157,7 @@ async function identifyServer(client: IAuthenticatedClient, message: IMessage) {
   sendMessageToClient(client, identifyConfirmation)
 
   // Introduce all currently connected clients to the new client.
-  const currentServerMessage: IMessage = {
+  const currentServerMessage: Message = {
     context: 'Connect',
     data: {},
     target: Target.INFO,
@@ -196,7 +184,7 @@ async function identifyServer(client: IAuthenticatedClient, message: IMessage) {
   })
 
   // Introduce the new client to all existing clients.
-  const welcomeMessage: IMessage = {
+  const welcomeMessage: Message = {
     context: 'Connect',
     data: {
       id: client.serverId,
@@ -217,13 +205,15 @@ const contentValidationSchema = Yup.object({
   target: Yup.lazy(value =>
     typeof value === 'number'
       ? Yup.number().required()
-      : Yup.string().oneOf(['b', 'g', 'i'])
-  ) as Yup.NumberSchema<number> | Yup.StringSchema<Target>,
+      : (Yup.string()
+          .oneOf(Object.values(Target))
+          .required() as Yup.StringSchema<Target>)
+  ),
 }).required()
 
 // Called when a socket received new data.
-async function onSocketData(this: net.Socket, data: Buffer) {
-  const client = authenticatedClients.find(client => client.socket === this)
+async function onSocketData(socket: net.Socket, data: Buffer) {
+  const client = authenticatedClients.find(client => client.socket === socket)
 
   if (client === undefined) {
     logger.info('Ignoring data from unauthenticated socket')
@@ -237,51 +227,56 @@ async function onSocketData(this: net.Socket, data: Buffer) {
 
     for (const line of bufferedLines) {
       logger.debug(
-        `Got message from ${this.remoteAddress}:${this.remotePort}: ${line}`
+        `Got message from ${socket.remoteAddress}:${socket.remotePort}: ${line}`
       )
 
+      let content
       try {
-        const content = JSON.parse(line)
-        const message = await contentValidationSchema.validate(content, {
-          abortEarly: false,
-          stripUnknown: true,
-        })
-
-        if (typeof message.target === 'string') {
-          switch (message.target) {
-            case Target.BROADCAST:
-              broadcastFrom(client, message)
-              break
-            case Target.BROADCAST_GROUP:
-              broadcastToGroupFrom(client, message)
-              break
-            case Target.INFO:
-              await identifyServer(client, message)
-              break
-            default:
-              throw new Error('Unknown target.')
-          }
-        } else if (typeof message.target === 'number') {
-          const receiver = authenticatedClients.find(
-            client => client.serverId === message.target
-          )
-
-          if (receiver === undefined) {
-            throw new Error('Unknown receiver.')
-          }
-
-          sendMessageToClient(receiver, message)
-        }
+        content = JSON.parse(line)
       } catch (err) {
-        logger.error({ err }, 'Failed to handle message')
+        logger.error({ err }, 'Failed to read line of socket data')
+        return
+      }
+
+      const message = await contentValidationSchema.validate(content, {
+        abortEarly: false,
+        stripUnknown: true,
+      })
+
+      if (typeof message.target === 'string') {
+        switch (message.target) {
+          case Target.BROADCAST:
+            broadcastFrom(client, message)
+            break
+          case Target.BROADCAST_GROUP:
+            broadcastToGroupFrom(client, message)
+            break
+          case Target.INFO:
+            await identifyServer(client, message)
+            break
+          default:
+            logger.error('Unknown target')
+            return
+        }
+      } else if (typeof message.target === 'number') {
+        const receiver = authenticatedClients.find(
+          client => client.serverId === message.target
+        )
+
+        if (receiver === undefined) {
+          logger.error('Unknown receiver')
+          return
+        }
+
+        sendMessageToClient(receiver, message)
       }
     }
   }
 }
 
 // Called when a socket disconnected.
-function onSocketDisconnect(this: net.Socket) {
-  const client = authenticatedClients.find(client => client.socket === this)
+function onSocketDisconnect(socket: net.Socket) {
+  const client = authenticatedClients.find(client => client.socket === socket)
 
   if (client !== undefined) {
     // Announce server disconnect.
@@ -293,7 +288,7 @@ function onSocketDisconnect(this: net.Socket) {
 
     broadcastToGroupFrom(client, message)
 
-    logger.info(`${this.remoteAddress}:${this.remotePort} disconnected`)
+    logger.info(`${socket.remoteAddress}:${socket.remotePort} disconnected`)
 
     authenticatedClients.splice(authenticatedClients.indexOf(client), 1)
   }
@@ -326,21 +321,17 @@ function onSocketConnect(socket: net.Socket) {
     `New socket connection from ${socket.remoteAddress}:${socket.remotePort}`
   )
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  socket.on('data', onSocketData.bind(socket))
-  socket.on('close', onSocketDisconnect.bind(socket))
+  socket.on('data', data => void onSocketData(socket, data))
+  socket.on('close', () => onSocketDisconnect(socket))
   socket.on('error', handleError)
 }
 
-// Handle new connections.
 server.on('connection', onSocketConnect)
-
-// Error handling.
 server.on('error', handleError)
 
-// Listen.
+const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 27200
-server.listen(port, process.env.IP ?? '0.0.0.0')
+server.listen(port, host)
 
 server.on('listening', () => {
   const address = server.address() as AddressInfo | null
