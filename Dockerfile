@@ -1,37 +1,46 @@
+# Base (Debian stretch)
+FROM node:14 as base
+
 # Builder
-FROM node:12-alpine AS builder
+FROM base as builder
 
-RUN apk add --update --no-cache yarn
+# Install yarn.
+RUN apt-get update && \
+    apt-get install -y curl gnupg apt-transport-https ca-certificates && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y yarn
 
-USER node
 WORKDIR /home/node
 
-COPY ["package.json", "yarn.lock", "./"]
-
+# Copy all files required for installing dependencies.
+COPY --chown=node:node .yarn/ .yarn/
+COPY --chown=node:node ["package.json", "yarn.lock", ".yarnrc.yml", "./"]
 # Install all dependencies.
-RUN yarn install --frozen-lockfile
+RUN yarn
 
-# Copy files for buld.
-COPY . .
-
-# Build 
-RUN yarn build && \
-    # Remove dev dependencies.
-    yarn install --frozen-lockfile --production
+# Copy all files required for building.
+COPY --chown=node:node src/ ./src
+# Build and remove dev dependencies
+RUN yarn build && yarn --production
 
 # Final image
-FROM node:12-alpine
-
-RUN apk add --update --no-cache curl
+FROM base
 
 USER node
 WORKDIR /home/node
+
+ENV NODE_ENV=production
+
+EXPOSE 27200/tcp
 
 # Copy only required files from builder to final image.
 COPY --from=builder --chown=node:node /home/node/node_modules/ ./node_modules/
 COPY --from=builder --chown=node:node /home/node/package.json ./
-COPY --from=builder --chown=node:node /home/node/dist/ ./dist
+COPY --from=builder --chown=node:node /home/node/dist/ ./dist/
 
-EXPOSE 27200/tcp
+WORKDIR /home/node
 
-CMD ["npm", "start"]
+
+CMD ["yarn", "start"]
