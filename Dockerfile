@@ -1,16 +1,11 @@
-# Base (Debian stretch)
-FROM node:14 as base
+# Base
+FROM node:14-alpine as base
 
 # Builder
 FROM base as builder
 
 # Install yarn.
-RUN apt-get update && \
-    apt-get install -y curl gnupg apt-transport-https ca-certificates && \
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && \
-    apt-get install -y yarn
+RUN apk add --update --no-cache yarn
 
 WORKDIR /home/node
 
@@ -41,6 +36,5 @@ COPY --from=builder --chown=node:node /home/node/package.json ./
 COPY --from=builder --chown=node:node /home/node/dist/ ./dist/
 
 WORKDIR /home/node
-
 
 CMD ["yarn", "start"]
