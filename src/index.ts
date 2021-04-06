@@ -3,9 +3,9 @@ import net, { AddressInfo } from 'net'
 import fs from 'fs'
 import path from 'path'
 import dotenv from 'dotenv'
-import { isPrivate } from 'ip'
 import * as Yup from 'yup'
 import logger from './logger'
+import { isPrivateIP } from './utils'
 
 dotenv.config()
 
@@ -79,7 +79,7 @@ function findSpareServerId() {
 
 function isServerWhitelisted(ip: string, port: number) {
   return (
-    isPrivate(ip) ||
+    isPrivateIP(ip) ||
     whitelist.some(
       ({ ip: whitelistedIp, port: whitelistedPort }) =>
         whitelistedIp === ip && whitelistedPort === port
