@@ -6,6 +6,6 @@
     "bracketSpacing": true,
     "semi": false,
     "useTabs": false,
-    "arrowParens": "avoid",
+    "arrowParens": "always",
     "endOfLine": "lf"
 }

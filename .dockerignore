@@ -2,5 +2,11 @@
 
 !package.json
 !yarn.lock
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 !tsconfig.json
 !src
