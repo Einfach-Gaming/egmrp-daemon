@@ -1,27 +1,16 @@
+
 {
+  "extends": "@tsconfig/node14",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
 
     "sourceMap": true,
-    "importHelpers": true,
 
-    "lib": ["esnext", "dom"],
-    "target": "es2019", // ES2019 is 100% supported in node.js 12.3.
-
-    "module": "commonjs", // Node.js does not yet support es-modules.
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-
-    "strict": true,
+    "importsNotUsedAsValues": "error",
     "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-
-    "importsNotUsedAsValues": "error"
   },
   "include": ["src/**/*.ts"]
 }
