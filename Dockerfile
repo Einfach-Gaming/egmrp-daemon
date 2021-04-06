@@ -23,7 +23,7 @@ RUN yarn
 # Copy all files required for building.
 COPY --chown=node:node . .
 # Build and remove dev dependencies
-RUN yarn build && yarn --production
+RUN yarn build && yarn workspaces focus --production
 
 # Final image
 FROM base
