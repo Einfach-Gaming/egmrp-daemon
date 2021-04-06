@@ -21,7 +21,7 @@ COPY --chown=node:node ["package.json", "yarn.lock", ".yarnrc.yml", "./"]
 RUN yarn
 
 # Copy all files required for building.
-COPY --chown=node:node src/ ./src
+COPY --chown=node:node . .
 # Build and remove dev dependencies
 RUN yarn build && yarn --production
 
