@@ -18,6 +18,8 @@
     "ts-check": "tsc --project ./tsconfig.json --noEmit"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "5.0.1",
+    "@semantic-release/git": "9.0.0",
     "@types/ip": "1.1.0",
     "@types/joi": "14.3.4",
     "@types/node": "12.12.64",
@@ -36,6 +38,8 @@
     "prettier": "2.1.2",
     "ts-node": "9.0.0",
     "typescript": "4.0.3"
+    "semantic-release": "17.4.2",
+    "semantic-release-docker": "2.2.0",
   },
   "dependencies": {
     "dotenv": "8.2.0",
@@ -43,5 +47,33 @@
     "pino": "6.7.0",
     "tslib": "2.1.0",
     "yup": "0.29.3"
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "preset": "angular",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            "dist/*.js"
+          ]
+        }
+      ],
+      "@semantic-release/git"
+    ],
+    "verifyConditions": {
+      "path": "semantic-release-docker",
+      "registryUrl": "docker.io"
+    },
+    "publish": {
+      "path": "semantic-release-docker",
+      "name": "p4sca1/egmrp-daemon"
+    }
   }
 }
