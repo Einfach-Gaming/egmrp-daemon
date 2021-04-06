@@ -14,8 +14,8 @@
     "dev": "nodemon",
     "start": "node ./dist/index.js",
     "lint": "eslint \"src/**/*.ts\"",
-    "lint-fix": "eslint --fix \"src/**/*.ts\"",
-    "ts-check": "tsc --project ./tsconfig.json --noEmit"
+    "lint:fix": "eslint --fix \"src/**/*.ts\"",
+    "tsc:check": "tsc --project ./tsconfig.json --noEmit",
   },
   "devDependencies": {
     "@semantic-release/changelog": "5.0.1",
