@@ -67,14 +67,14 @@
       [
         "@semantic-release/exec",
         {
-          "prepareCmd": "docker build -t docker.pkg.github.com/einfach-gaming/egmrp-daemon/egmrp-daemon ."
+          "prepareCmd": "docker build -t ghcr.io/einfach-gaming/egmrp-daemon ."
         }
       ],
       [
         "semantic-release-docker",
         {
-          "name": "docker.pkg.github.com/einfach-gaming/egmrp-daemon/egmrp-daemon",
-          "registryUrl": "docker.pkg.github.com"
+          "name": "ghcr.io/einfach-gaming/egmrp-daemon",
+          "registryUrl": "ghcr.io"
         }
       ]
     ]
