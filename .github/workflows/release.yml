@@ -21,6 +21,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        run: |-
-          docker build -t p4sca1/cron-schedule .
-          yarn semantic-release
+        run: yarn semantic-release
