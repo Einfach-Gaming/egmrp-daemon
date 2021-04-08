@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.0...v2.2.1) (2021-04-08)
+
+
+### Bug Fixes
+
+* use github container registry ([327d6fc](https://github.com/Einfach-Gaming/egmrp-daemon/commit/327d6fc23e259cc34d1c87ccc63e9c249e72b671))
+
 # [2.2.0](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.1.1...v2.2.0) (2021-04-06)
 
 
