@@ -645,6 +645,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pino-pretty@npm:*":
+  version: 4.7.0
+  resolution: "@types/pino-pretty@npm:4.7.0"
+  dependencies:
+    "@types/pino": "*"
+  checksum: 083322f62faadb9f035df02b6ab837c56127aedc5ab00a92e6f10338c9d1d4ed0168135f1efe73c3fea7bf2d92514c070370a6036eaa28f8fe60f5515040335d
+  languageName: node
+  linkType: hard
+
 "@types/pino-std-serializers@npm:*":
   version: 2.4.1
   resolution: "@types/pino-std-serializers@npm:2.4.1"
@@ -654,14 +663,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pino@npm:6.3.6":
-  version: 6.3.6
-  resolution: "@types/pino@npm:6.3.6"
+"@types/pino@npm:*, @types/pino@npm:6.3.7":
+  version: 6.3.7
+  resolution: "@types/pino@npm:6.3.7"
   dependencies:
     "@types/node": "*"
+    "@types/pino-pretty": "*"
     "@types/pino-std-serializers": "*"
     "@types/sonic-boom": "*"
-  checksum: ad25dc65e2364189f8f5ea8e2a8872a446b675e906206d8b30338acfb41be0df8f4d7866b970086716c5452c37ace7e4d8a44650388b95b93e3a1fe7d56ae0d6
+  checksum: 5c60982141a1a168386f434d41becd7aaccfd875012a260cd3599bf4483915f37329cc7b1c7c41924fd403cbcecb843732089c562ab8398ea4cd2bd0dbbbd5b2
   languageName: node
   linkType: hard
 
@@ -2024,7 +2034,7 @@ __metadata:
     "@semantic-release/git": 9.0.0
     "@tsconfig/node14": 1.0.0
     "@types/node": 14.14.37
-    "@types/pino": 6.3.6
+    "@types/pino": 6.3.7
     "@types/semantic-release": 17.2.0
     "@types/yup": 0.29.11
     "@typescript-eslint/eslint-plugin": 4.21.0
