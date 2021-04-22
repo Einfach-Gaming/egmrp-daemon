@@ -84,9 +84,8 @@ function isServerWhitelisted(ip: string, port: number) {
 
 function broadcastToGroupFrom(sender: AuthenticatedClient, message: Message) {
   if (!sender.initialized) {
-    throw new Error(
-      'Sender needs to be initialized before being able to send messages.'
-    )
+    logger.error('Sender needs to be initialized before being able to send messages.')
+    return
   }
 
   authenticatedClients.forEach(client => {
@@ -102,9 +101,8 @@ function broadcastToGroupFrom(sender: AuthenticatedClient, message: Message) {
 
 function broadcastFrom(sender: AuthenticatedClient, message: Message) {
   if (!sender.initialized) {
-    throw new Error(
-      'Sender needs to be initialized before being able to send messages.'
-    )
+    logger.error('Sender needs to be initialized before being able to send messages.')
+    return
   }
 
   authenticatedClients.forEach(client => {
@@ -116,9 +114,8 @@ function broadcastFrom(sender: AuthenticatedClient, message: Message) {
 
 function sendMessageToClient(receiver: AuthenticatedClient, message: Message) {
   if (!receiver.initialized) {
-    throw new Error(
-      'Client needs to be initialized before being able to receive messages.'
-    )
+    logger.error('Client needs to be initialized before being able to receive messages.')
+    return
   }
 
   receiver.socket.write(`${JSON.stringify(message)}\n`)
