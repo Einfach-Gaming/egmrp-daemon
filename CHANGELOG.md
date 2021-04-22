@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.1...v2.2.2) (2021-04-22)
+
+
+### Bug Fixes
+
+* Dont crash Daemon when Sender or is not initalized yet ([61bd19a](https://github.com/Einfach-Gaming/egmrp-daemon/commit/61bd19a91b8ce96123468eb19dd1772d3b9ad6dd))
+
 ## [2.2.1](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.0...v2.2.1) (2021-04-08)
 
 
