@@ -624,10 +624,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:14.14.37":
-  version: 14.14.37
-  resolution: "@types/node@npm:14.14.37"
-  checksum: 5e2d9baf7594ebacaf016716515f30de0765169412787f981481c2fb8b468923149bb9e2e3219ee672399811672ceddc339a7372a61cf15bc656836a5494d991
+"@types/node@npm:14.14.44":
+  version: 14.14.44
+  resolution: "@types/node@npm:14.14.44"
+  checksum: 5c4db716325fc8a25b5b76b800acf0ff00c8fa1e7cfcb764fc79d79594939488cb9d2a756e188eb8e8a36da51e8e2be1ffe859be901b338779cb0aa12ad73b3a
   languageName: node
   linkType: hard
 
@@ -2033,7 +2033,7 @@ __metadata:
     "@semantic-release/exec": 5.0.0
     "@semantic-release/git": 9.0.0
     "@tsconfig/node14": 1.0.0
-    "@types/node": 14.14.37
+    "@types/node": 14.14.44
     "@types/pino": 6.3.7
     "@types/semantic-release": 17.2.0
     "@types/yup": 0.29.11
