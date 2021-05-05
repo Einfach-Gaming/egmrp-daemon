@@ -1992,10 +1992,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:8.5.1":
-  version: 8.5.1
-  resolution: "dotenv@npm:8.5.1"
-  checksum: e0d688c67e60f831e6eba6f89470b1531609456c38e58eef8b6b3a27784f4a925fd033ca2709eae8f74f5e707299f699c3f8ce18e1bfaeae230d42b18c4e0701
+"dotenv@npm:8.6.0":
+  version: 8.6.0
+  resolution: "dotenv@npm:8.6.0"
+  checksum: f4649999a157061dd169118f459d88db56380b2eef68e87fa9de7201796e5f6d94fa337658d7e148f404b48652a0eefe11222d9eba0cd464497911ae56cd6f93
   languageName: node
   linkType: hard
 
@@ -2040,7 +2040,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 4.21.0
     "@typescript-eslint/parser": 4.21.0
     "@typescript-eslint/typescript-estree": 4.21.0
-    dotenv: 8.5.1
+    dotenv: 8.6.0
     eslint: 7.23.0
     eslint-config-prettier: 8.1.0
     eslint-plugin-prettier: 3.3.1
