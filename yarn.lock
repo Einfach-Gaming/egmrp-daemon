@@ -663,7 +663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pino@npm:*, @types/pino@npm:6.3.7":
+"@types/pino@npm:*":
   version: 6.3.7
   resolution: "@types/pino@npm:6.3.7"
   dependencies:
@@ -672,6 +672,18 @@ __metadata:
     "@types/pino-std-serializers": "*"
     "@types/sonic-boom": "*"
   checksum: 5c60982141a1a168386f434d41becd7aaccfd875012a260cd3599bf4483915f37329cc7b1c7c41924fd403cbcecb843732089c562ab8398ea4cd2bd0dbbbd5b2
+  languageName: node
+  linkType: hard
+
+"@types/pino@npm:6.3.8":
+  version: 6.3.8
+  resolution: "@types/pino@npm:6.3.8"
+  dependencies:
+    "@types/node": "*"
+    "@types/pino-pretty": "*"
+    "@types/pino-std-serializers": "*"
+    "@types/sonic-boom": "*"
+  checksum: f3cf2324ff72c4472c34dc5019615abfbeb86331a79ed401a135c0d9a1375f560e86d517c18019666d0c1eff2e6cf076925bfa4de836c865214f25f75784f3d4
   languageName: node
   linkType: hard
 
@@ -2034,7 +2046,7 @@ __metadata:
     "@semantic-release/git": 9.0.0
     "@tsconfig/node14": 1.0.0
     "@types/node": 14.17.0
-    "@types/pino": 6.3.7
+    "@types/pino": 6.3.8
     "@types/semantic-release": 17.2.0
     "@types/yup": 0.29.11
     "@typescript-eslint/eslint-plugin": 4.21.0
@@ -2045,7 +2057,7 @@ __metadata:
     eslint-config-prettier: 8.1.0
     eslint-plugin-prettier: 3.3.1
     nodemon: 2.0.7
-    pino: 6.11.2
+    pino: 6.11.3
     pino-pretty: 4.7.1
     prettier: 2.2.1
     semantic-release: 17.4.2
@@ -4975,19 +4987,19 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"pino@npm:6.11.2":
-  version: 6.11.2
-  resolution: "pino@npm:6.11.2"
+"pino@npm:6.11.3":
+  version: 6.11.3
+  resolution: "pino@npm:6.11.3"
   dependencies:
     fast-redact: ^3.0.0
     fast-safe-stringify: ^2.0.7
     flatstr: ^1.0.12
     pino-std-serializers: ^3.1.0
-    quick-format-unescaped: 4.0.1
+    quick-format-unescaped: ^4.0.3
     sonic-boom: ^1.0.2
   bin:
-    pino: ./bin.js
-  checksum: e854d37d659080c6f96c4030a279b44a25cc1550b8ca6aee0c9a62420773c2771090cfec96587aa917d4c82a2d1744d52e63d9d9135d4c410f9d30438069a013
+    pino: bin.js
+  checksum: c6fa52d31bfc2ab3e0b746aa4f859bd723dc7b0e3f15773cd9cdfc16846707a101ce9856c71a671e6896c24627dcfaee429fb943afaf85e226d796716d0c03db
   languageName: node
   linkType: hard
 
@@ -5157,10 +5169,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"quick-format-unescaped@npm:4.0.1":
-  version: 4.0.1
-  resolution: "quick-format-unescaped@npm:4.0.1"
-  checksum: 0935e55e0aaaf789baa080768e822694bc0a497a3170fd35bf2b1aee2a953cf3b5a24e9d29a70dbe7bdc72534c6e1be917ab5c599d587ce0425c98293d8cc1c7
+"quick-format-unescaped@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "quick-format-unescaped@npm:4.0.3"
+  checksum: 08bbbe4937df113082fcc42dfbdb75df7e5291df805cd25347e0241f2f97bfb8368899dfbece10b79411249f81196b268ad1a36cc42208e4074cf89d27c3d055
   languageName: node
   linkType: hard
 
