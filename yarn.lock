@@ -2058,7 +2058,7 @@ __metadata:
     eslint-plugin-prettier: 3.3.1
     nodemon: 2.0.7
     pino: 6.11.3
-    pino-pretty: 4.7.1
+    pino-pretty: 4.8.0
     prettier: 2.2.1
     semantic-release: 17.4.2
     semantic-release-docker: 2.2.0
@@ -4959,9 +4959,9 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"pino-pretty@npm:4.7.1":
-  version: 4.7.1
-  resolution: "pino-pretty@npm:4.7.1"
+"pino-pretty@npm:4.8.0":
+  version: 4.8.0
+  resolution: "pino-pretty@npm:4.8.0"
   dependencies:
     "@hapi/bourne": ^2.0.0
     args: ^5.0.1
@@ -4972,11 +4972,12 @@ fsevents@~2.1.2:
     joycon: ^2.2.5
     pump: ^3.0.0
     readable-stream: ^3.6.0
+    rfdc: ^1.3.0
     split2: ^3.1.1
     strip-json-comments: ^3.1.1
   bin:
     pino-pretty: bin.js
-  checksum: 7af3913844d07543b4ab1fa52dd335b8f93aaf87d918b5f01e37b0ad2e4c43cffaa7994e476d95def76c98edabe2d5b7e1d65af9b32288ea32bd2bf1584d6cee
+  checksum: f4b908352cec4d1983812263c1f02301274b97644371a23bcc17470c9b70b1285b075195559c611fffa1777d16cc31cd5ea5636abf73b43aa64bc9304d85ab6e
   languageName: node
   linkType: hard
 
@@ -5452,6 +5453,13 @@ fsevents@~2.1.2:
   version: 1.0.4
   resolution: "reusify@npm:1.0.4"
   checksum: 08ef02ed0514f020a51131ba2e6c27c66ccebe25d49cfc83467a0d4054db4634a2853480d0895c710b645ab66af1a6fb3e183888306ae559413bd96c69f39ccd
+  languageName: node
+  linkType: hard
+
+"rfdc@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "rfdc@npm:1.3.0"
+  checksum: 34dd5c5acf95c1248a81a539b899490e3b2a73373f2fa4187ce0e555581b64c4d08619f022970d6aabe9e044cfa4d4f6118939dfd640c01da68c36d89f118807
   languageName: node
   linkType: hard
 
