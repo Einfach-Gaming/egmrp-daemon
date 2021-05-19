@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.2...v2.2.3) (2021-05-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency pino to v6.11.3 ([#43](https://github.com/Einfach-Gaming/egmrp-daemon/issues/43)) ([8978ae1](https://github.com/Einfach-Gaming/egmrp-daemon/commit/8978ae1e1742220d121359083fb529f8b0c3242a))
+
 ## [2.2.2](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.1...v2.2.2) (2021-04-22)
 
 
