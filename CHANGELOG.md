@@ -1,6 +1,25 @@
 # [3.0.0](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.3...v3.0.0) (2022-11-21)
 
 
+### Bug Fixes
+
+* remove @types/yup ([ed0cb4d](https://github.com/Einfach-Gaming/egmrp-daemon/commit/ed0cb4d22819133dc226d35aac6278193bd962cf))
+
+
+### Features
+
+* upgrade all dependencies and migrate to ESM ([0b26705](https://github.com/Einfach-Gaming/egmrp-daemon/commit/0b267055eba67bfc7f72ed197ff108fd76a32605))
+
+
+### BREAKING CHANGES
+
+* The minimum required Node.js version is now 18
+* The daemon is now distributed as ES Module
+* Renamed index to main
+
+# [3.0.0](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.3...v3.0.0) (2022-11-21)
+
+
 ### Features
 
 * upgrade all dependencies and migrate to ESM ([0b26705](https://github.com/Einfach-Gaming/egmrp-daemon/commit/0b267055eba67bfc7f72ed197ff108fd76a32605))
