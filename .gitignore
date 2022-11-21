@@ -1,7 +1,7 @@
 node_modules
 dist
-whitelist.json
 .env
+.DS_Store
 
 .yarn/*
 !.yarn/cache
