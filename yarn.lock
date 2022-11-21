@@ -758,15 +758,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yup@npm:0.32.0":
-  version: 0.32.0
-  resolution: "@types/yup@npm:0.32.0"
-  dependencies:
-    yup: "*"
-  checksum: 5b30f1118bca288d949bcd4c7e17d1425ffa320eddd751a78c895b158fae0b6cbf242ced45ad47e9e70643c9475da09a7ad004192fb6f2111791d37e6a627e73
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/eslint-plugin@npm:5.43.0":
   version: 5.43.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.43.0"
@@ -1806,7 +1797,6 @@ __metadata:
     "@tsconfig/node18-strictest-esm": 1.0.1
     "@types/node": 18.11.9
     "@types/semantic-release": 17.2.4
-    "@types/yup": 0.32.0
     "@typescript-eslint/eslint-plugin": 5.43.0
     "@typescript-eslint/parser": 5.43.0
     "@typescript-eslint/typescript-estree": 5.43.0
@@ -5915,7 +5905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yup@npm:*, yup@npm:0.32.11":
+"yup@npm:0.32.11":
   version: 0.32.11
   resolution: "yup@npm:0.32.11"
   dependencies:
