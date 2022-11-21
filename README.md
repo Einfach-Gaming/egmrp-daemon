@@ -18,27 +18,15 @@ docker run -d \
   --name egmrp-daemon \
   --restart always \
   -p 27200:27200 \
-  -v /path/to/whitelist.json:/home/node/whitelist.json \
+  -e WHITELIST=1.2.3.4:27125,5.6.7.8:27125 \
   ghcr.io/einfach-gaming/egmrp-daemon:latest
 ```
 
 This will launch the daemon on port `27200` (the default).
 
-Note that you need to change `/path/to/whitelist.json` to point to a json file on your machine. Every server that is not accessing the daemon locally (through private ip adresses) needs to be explicitly whitelisted using this file.
-Here's an example `whitelist.json` file, which will allow connections from `1.2.3.4:27025` and `5.6.7.8:27025`. Note that the port value must not be the game server port but the port that the game server socket listens on (can be configured in EGM:RP with `Socket.LocalPort` (defaults to `27025`).
-
-```json
-[
-  {
-    "ip": "1.2.3.4",
-    "port": 27025
-  },
-  {
-    "ip": "5.6.7.8",
-    "port": 27025
-  }
-]
-```
+Every server that is not accessing the daemon locally (through private ip adresses) needs to be explicitly whitelisted using the whitelist env variable.
+See the example above to whitelist `1.2.3.4:27125` and `5.6.7.8:27125`.
+Note that the port value must not be the game server port but the port that the game server socket listens on (can be configured in EGM:RP with `Socket.LocalPort` (defaults to `27025`).
 
 ### **EGM:RP**
 
