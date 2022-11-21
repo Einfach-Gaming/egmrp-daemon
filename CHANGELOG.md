@@ -11,6 +11,7 @@
 * The minimum required Node.js version is now 18
 * The daemon is now distributed as ES Module
 * Renamed index to main
+* The whitelist is no longer set using a json file, but with the WHITELIST env variable (see README)
 
 ## [2.2.3](https://github.com/Einfach-Gaming/egmrp-daemon/compare/v2.2.2...v2.2.3) (2021-05-19)
 
