@@ -742,12 +742,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semantic-release@npm:17.2.4":
-  version: 17.2.4
-  resolution: "@types/semantic-release@npm:17.2.4"
+"@types/semantic-release@npm:20.0.6":
+  version: 20.0.6
+  resolution: "@types/semantic-release@npm:20.0.6"
   dependencies:
     "@types/node": "*"
-  checksum: b4a51db09fdb3fb823c1c826f21fc519ee37e81e238591d853ff556adee714e125314c0786b1ce3e99c32c6751df17c7008cf0d9aad9559d30fd5291eb942a33
+  checksum: ff1b125177da493e2c2b59a2502f3eb7e4153738a81447607147b9044c1c72d48f9d7076c40e9b538a392090fc922160381f7aef099caf688b589f535823566a
   languageName: node
   linkType: hard
 
@@ -1796,7 +1796,7 @@ __metadata:
     "@semantic-release/git": 10.0.1
     "@tsconfig/node18-strictest-esm": 1.0.1
     "@types/node": 18.11.9
-    "@types/semantic-release": 17.2.4
+    "@types/semantic-release": 20.0.6
     "@typescript-eslint/eslint-plugin": 5.43.0
     "@typescript-eslint/parser": 5.43.0
     "@typescript-eslint/typescript-estree": 5.43.0
