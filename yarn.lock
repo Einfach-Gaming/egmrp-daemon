@@ -1806,7 +1806,7 @@ __metadata:
     eslint-plugin-prettier: 4.2.1
     nodemon: 2.0.20
     pino: 8.7.0
-    pino-pretty: 9.1.1
+    pino-pretty: 10.3.1
     prettier: 2.7.1
     semantic-release: 19.0.5
     semantic-release-docker: 2.2.0
@@ -2456,7 +2456,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^8.0.0, glob@npm:^8.0.1":
+"glob@npm:^8.0.1":
   version: 8.0.3
   resolution: "glob@npm:8.0.3"
   dependencies:
@@ -2561,13 +2561,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"help-me@npm:^4.0.1":
-  version: 4.1.0
-  resolution: "help-me@npm:4.1.0"
-  dependencies:
-    glob: ^8.0.0
-    readable-stream: ^3.6.0
-  checksum: 521b1b3f8cef500eff7b22fdeb7c5315c93001026dd3dac2450e8f85bfeba5512d51c14e3654fa03527a996130a372e903e3bf88a0e0fea1ec089c947212477e
+"help-me@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "help-me@npm:5.0.0"
+  checksum: 474436627b6c7d2f406a2768453895889eb2712c8ded4c47658d5c6dd46c2ff3f742be4e4e8dedd57b7f1ac6b28803896a2e026a32a977f507222c16f23ab2e1
   languageName: node
   linkType: hard
 
@@ -4386,15 +4383,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino-pretty@npm:9.1.1":
-  version: 9.1.1
-  resolution: "pino-pretty@npm:9.1.1"
+"pino-pretty@npm:10.3.1":
+  version: 10.3.1
+  resolution: "pino-pretty@npm:10.3.1"
   dependencies:
     colorette: ^2.0.7
     dateformat: ^4.6.3
     fast-copy: ^3.0.0
     fast-safe-stringify: ^2.1.1
-    help-me: ^4.0.1
+    help-me: ^5.0.0
     joycon: ^3.1.1
     minimist: ^1.2.6
     on-exit-leak-free: ^2.1.0
@@ -4406,7 +4403,7 @@ __metadata:
     strip-json-comments: ^3.1.1
   bin:
     pino-pretty: bin.js
-  checksum: c1d148aa0c5f2d1034cf76c0b397cf9725923d16343e9dff78d56b564090c1c86208aae94f1208f0fb936f456eece7eab6264095337540f42d91aaa13e5b8935
+  checksum: 51e2d670745a396ddfd12da9f7ea5c2e4dc93a84589ffb29f64f4118d4b83ab636ee21f4aee7a47adb04664d5d921fb33e039e0ea961bb1c1cffefa28444563c
   languageName: node
   linkType: hard
 
