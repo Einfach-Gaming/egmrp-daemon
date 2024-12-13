@@ -33,7 +33,7 @@
     "eslint": "8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
-    "nodemon": "2.0.20",
+    "nodemon": "3.1.9",
     "pino-pretty": "9.1.1",
     "prettier": "2.7.1",
     "semantic-release": "19.0.5",
