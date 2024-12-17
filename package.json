@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "pino": "8.7.0",
-    "yup": "0.32.11"
+    "yup": "1.6.1"
   },
   "release": {
     "branches": [
