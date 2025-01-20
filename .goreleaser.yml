@@ -1,0 +1,18 @@
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - goos:
+      - linux
+    goarch:
+      - amd64
+    ldflags:
+      - -s -w -X {{.ModulePath}}/meta.Version={{.Version}} -X {{.ModulePath}}/meta.Commit={{.Commit}} -X {{.ModulePath}}/meta.BuildDate={{.Date}}
+
+dockers:
+    - goos: linux
+      goarch: amd64
+      image_templates:
+      - ghcr.io/einfach-gaming/egmrp-daemon:latest
+      - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}
