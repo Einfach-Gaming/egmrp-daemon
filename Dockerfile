@@ -1,5 +1,5 @@
 # Base
-FROM node:18-alpine as base
+FROM node:18.20.6-alpine@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb as base
 
 # Builder
 FROM base as builder
