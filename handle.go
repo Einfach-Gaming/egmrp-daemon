@@ -72,6 +72,7 @@ func identifyServer(client *AuthenticatedClient, msg *Message) error {
 	}
 
 	client.serverInfo = &info
+	client.hidden = info.Hidden
 	client.initialized = true
 
 	log.Info().

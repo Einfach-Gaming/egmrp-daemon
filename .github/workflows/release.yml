@@ -41,13 +41,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CGO_ENABLED: 0
-
-      - name: Sentry release
-        uses: getsentry/action-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ips-hosting-eu
-          SENTRY_PROJECT: ts-bot-go
-        with:
-          version: ts-bot-go@${{ fromJSON(steps.goreleaser.outputs.metadata).version }}          
