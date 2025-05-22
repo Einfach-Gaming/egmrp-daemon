@@ -17,11 +17,15 @@ dockers:
       image_templates:
       - ghcr.io/einfach-gaming/egmrp-daemon:latest-amd64
       - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}-amd64
+      build_flag_templates:
+      - "--platform=linux/amd64"
     - goos: linux
       goarch: arm64
       image_templates:
       - ghcr.io/einfach-gaming/egmrp-daemon:latest-arm64
       - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}-arm64
+      build_flag_templates:
+      - "--platform=linux/arm64/v8"
 
 docker_manifests:
   - name_template: ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}
