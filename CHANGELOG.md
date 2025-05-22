@@ -1,5 +1,11 @@
 # Changelog
 
+## [v4.0.3](https://github.com/Einfach-Gaming/egmrp-daemon/releases/tag/v4.0.3)
+
+### Bug Fixes
+
+- now really build the seperate images
+
 ## [v4.0.2](https://github.com/Einfach-Gaming/egmrp-daemon/releases/tag/v4.0.2)
 
 ### Bug Fixes
