@@ -7,6 +7,7 @@ builds:
       - linux
     goarch:
       - amd64
+      - arm64
     ldflags:
       - -s -w -X {{.ModulePath}}/meta.Version={{.Version}} -X {{.ModulePath}}/meta.Commit={{.Commit}} -X {{.ModulePath}}/meta.BuildDate={{.Date}}
 
@@ -14,5 +15,20 @@ dockers:
     - goos: linux
       goarch: amd64
       image_templates:
-      - ghcr.io/einfach-gaming/egmrp-daemon:latest
-      - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}
+      - ghcr.io/einfach-gaming/egmrp-daemon:latest-amd64
+      - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}-amd64
+    - goos: linux
+      goarch: arm64
+      image_templates:
+      - ghcr.io/einfach-gaming/egmrp-daemon:latest-arm64
+      - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}-arm64
+
+docker_manifests:
+  - name_template: ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}
+    image_templates:
+      - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}-amd64
+      - ghcr.io/einfach-gaming/egmrp-daemon:{{ .Tag }}-arm64
+  - name_template: ghcr.io/einfach-gaming/egmrp-daemon:latest
+    image_templates:
+      - ghcr.io/einfach-gaming/egmrp-daemon:latest-amd64
+      - ghcr.io/einfach-gaming/egmrp-daemon:latest-arm64
