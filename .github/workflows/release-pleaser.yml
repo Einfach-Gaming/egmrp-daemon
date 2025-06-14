@@ -14,6 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: releaser-pleaser
-        uses: apricote/releaser-pleaser@fe3c9488b36faf1120f08208557ca440734eb286 # v0.5.1
+        uses: apricote/releaser-pleaser@fc1ee70c28f94391de0d5126427f85858f74fef0 # v0.6.0
         with:
           token: ${{ secrets.RELEASER_PLEASER_TOKEN }}
