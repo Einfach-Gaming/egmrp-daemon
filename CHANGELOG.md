@@ -1,5 +1,12 @@
 # Changelog
 
+## [v4.0.4](https://github.com/Einfach-Gaming/egmrp-daemon/releases/tag/v4.0.4)
+
+### Bug Fixes
+
+- **deps**: update module github.com/rs/zerolog to v1.35.0 (#127)
+- **deps**: update module github.com/rs/zerolog to v1.35.1 (#129)
+
 ## [v4.0.3](https://github.com/Einfach-Gaming/egmrp-daemon/releases/tag/v4.0.3)
 
 ### Bug Fixes
