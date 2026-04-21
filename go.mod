@@ -1,6 +1,6 @@
 module github.com/einfach-gaming/egmrp-daemon
 
-go 1.23
+go 1.26.2
 
 require github.com/rs/zerolog v1.35.1
 
